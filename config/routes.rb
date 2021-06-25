@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :packages do
     resources :versions
     collection do
+      get :import
       get :search
     end
   end
