@@ -1,4 +1,4 @@
-class PackageManagerDownloadWorker
+class ImportPackageWorker
   include Sidekiq::Worker
   sidekiq_options queue: :critical
 
