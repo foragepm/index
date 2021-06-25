@@ -3,17 +3,17 @@
 # number of saved archives
 # total size of saved archives -->
 <h1 class="display-1">
-  <%= pluralize(Package.count, 'package') %> indexed
+  <span class='text-primary'><%= number_to_human Package.count %></span> packages indexed
 </h1>
 
 <h1 class="display-2">
-  <%= pluralize(Version.count, 'versions') %> found
+  <span class='text-success'><%= number_to_human Version.count %></span> found
 </h1>
 
 <h1 class="display-3">
-  <%= pluralize(0, 'tarball') %> archived
+  <span class='text-danger'>0</span> tarballs archived
 </h1>
 
 <h1 class="display-3">
-  <%= number_to_human_size(0).downcase %> stored
+  <span class='text-info'>0</span> bytes stored
 </h1>
