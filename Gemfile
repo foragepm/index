@@ -35,7 +35,7 @@ gem "faraday_middleware"
 gem "counter_culture"
 gem "spdx", '2.0.10'
 
-gem 'bugsnag'
+# gem 'bugsnag'
 gem 'zlib'
 
 gem 'omniauth-github', '1.4.0'

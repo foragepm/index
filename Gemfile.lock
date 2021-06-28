@@ -106,8 +106,6 @@ GEM
       autoprefixer-rails (>= 9.1.0)
       popper_js (>= 1.14.3, < 2)
       sassc-rails (>= 2.0.0)
-    bugsnag (6.21.0)
-      concurrent-ruby (~> 1.0)
     builder (3.2.4)
     chartkick (4.0.4)
     commander (4.6.0)
@@ -364,7 +362,6 @@ DEPENDENCIES
   bibliothecary!
   bootsnap
   bootstrap (= 4.6.0)
-  bugsnag
   chartkick
   commonmarker
   counter_culture
