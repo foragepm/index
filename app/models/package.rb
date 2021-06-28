@@ -68,7 +68,7 @@ class Package < ApplicationRecord
   scope :this_period, ->(period) { where('packages.created_at > ?', period.days.ago) }
   scope :last_period, ->(period) { where('packages.created_at > ?', (period*2).days.ago).where('packages.created_at < ?', period.days.ago) }
 
-  after_commit :set_dependents_count, on: [:create, :update]
+  #after_commit :set_dependents_count, on: [:create, :update]
   before_save  :update_details
   before_destroy :destroy_versions
 
