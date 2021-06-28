@@ -16,6 +16,7 @@ class Version < ApplicationRecord
 
   before_save :update_spdx_expression
   after_commit :save_package, on: :create
+  after_commit :record_archive_async, on: :create
 
   scope :newest_first, -> { order("versions.published_at DESC") }
 
@@ -92,6 +93,10 @@ class Version < ApplicationRecord
 
   def download_url
     package.download_url(number)
+  end
+
+  def record_archive_async
+    ArchiveVersionWorker.perform_async(id)
   end
 
   def record_archive
