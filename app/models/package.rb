@@ -65,8 +65,6 @@ class Package < ApplicationRecord
   scope :unmaintained, -> { where('packages."status" = ?', "Unmaintained")}
   scope :hidden, -> { where('packages."status" = ?', "Hidden")}
 
-  scope :depends_upon_internal, ->(package_scope = Package.internal) { joins(:dependencies).where('dependencies.package_id in (?)', package_scope.pluck(:id)).group(:id) }
-
   scope :this_period, ->(period) { where('packages.created_at > ?', period.days.ago) }
   scope :last_period, ->(period) { where('packages.created_at > ?', (period*2).days.ago).where('packages.created_at < ?', period.days.ago) }
 

@@ -12,6 +12,8 @@ class Version < ApplicationRecord
   has_many :runtime_dependencies, -> { where kind: %w[runtime normal] }, class_name: "Dependency"
   has_many :archives
 
+  scope :without_archives, -> { includes(:archives).where(archives: {version_id: nil}) }
+
   before_save :update_spdx_expression
   after_commit :save_package, on: :create
 
