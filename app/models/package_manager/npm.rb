@@ -16,7 +16,8 @@ module PackageManager
     end
 
     def self.download_url(name, version = nil)
-      "https://registry.npmjs.org/#{name}/-/#{name}-#{version}.tgz"
+      unnamespaced = name.split('/').last
+      "https://registry.npmjs.org/#{name}/-/#{unnamespaced}-#{version}.tgz"
     end
 
     def self.install_instructions(package, version = nil)
