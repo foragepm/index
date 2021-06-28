@@ -14,6 +14,13 @@ GIT
       typhoeus
 
 GIT
+  remote: https://github.com/andrew/ipfs-http-client.git
+  revision: 0862b9df37433bf3120d0082df42421e9f619fd4
+  specs:
+    ipfs-http-client (0.4.0)
+      http (~> 4.4)
+
+GIT
   remote: https://github.com/andrew/languages.git
   revision: f9f35a47ed0f5fc30af2c17c8c7aac20dc5aaaf7
   specs:
@@ -114,6 +121,8 @@ GEM
     crass (1.0.6)
     dalli (2.7.11)
     deb_control (0.0.1)
+    domain_name (0.5.20190701)
+      unf (>= 0.0.5, < 1.0.0)
     dotenv (2.7.6)
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
@@ -139,6 +148,9 @@ GEM
     faraday_middleware (1.0.0)
       faraday (~> 1.0)
     ffi (1.15.3)
+    ffi-compiler (1.0.1)
+      ffi (>= 1.0.0)
+      rake
     fuzzy_match (2.1.0)
     get_process_mem (0.2.7)
       ffi (~> 1.0)
@@ -150,6 +162,16 @@ GEM
       activesupport (>= 5)
     hashie (4.1.0)
     highline (2.0.3)
+    http (4.4.1)
+      addressable (~> 2.3)
+      http-cookie (~> 1.0)
+      http-form_data (~> 2.2)
+      http-parser (~> 1.2.0)
+    http-cookie (1.0.4)
+      domain_name (~> 0.5)
+    http-form_data (2.3.0)
+    http-parser (1.2.3)
+      ffi-compiler (>= 1.0, < 2.0)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     jquery-rails (4.4.0)
@@ -318,6 +340,9 @@ GEM
       ethon (>= 0.9.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.7)
     unicode-display_width (2.0.0)
     unicode_utils (1.4.0)
     web-console (4.1.0)
@@ -348,6 +373,7 @@ DEPENDENCIES
   faraday
   faraday_middleware
   groupdate
+  ipfs-http-client!
   jquery-rails
   languages!
   license-compatibility

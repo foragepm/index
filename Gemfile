@@ -46,6 +46,8 @@ gem 'dalli'
 
 gem 'sidekiq'
 
+gem 'ipfs-http-client', github: 'andrew/ipfs-http-client'
+
 group :development do
   gem 'web-console'
   gem 'listen'

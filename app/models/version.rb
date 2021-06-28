@@ -10,6 +10,7 @@ class Version < ApplicationRecord
   counter_culture :package
   has_many :dependencies, dependent: :delete_all
   has_many :runtime_dependencies, -> { where kind: %w[runtime normal] }, class_name: "Dependency"
+  has_many :archives
 
   before_save :update_spdx_expression
   after_commit :save_package, on: :create
@@ -85,5 +86,18 @@ class Version < ApplicationRecord
 
   def set_runtime_dependencies_count
     update_column(:runtime_dependencies_count, runtime_dependencies.count)
+  end
+
+  def download_url
+    package.download_url(number)
+  end
+
+  def record_archive
+    return true if archives.any?
+    client = Ipfs::Client.new(ENV['IPFS_API'] || 'http://localhost:5001')
+    res = client.urlstore_add(download_url)
+    if res["Key"].present?
+      Archive.create(version_id: id, package_id: package_id, url: download_url, cid: res["Key"], size: res["Size"])
+    end
   end
 end
