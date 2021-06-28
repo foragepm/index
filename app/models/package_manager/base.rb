@@ -105,7 +105,7 @@ module PackageManager
         end
       end
 
-      save_dependencies(dbpackage, mapped_package) if self::HAS_DEPENDENCIES
+      #save_dependencies(dbpackage, mapped_package) if self::HAS_DEPENDENCIES
       dbpackage.reload
       # dbpackage.download_registry_users
       dbpackage.last_synced_at = Time.now
