@@ -16,7 +16,7 @@ class Version < ApplicationRecord
 
   before_save :update_spdx_expression
   after_commit :save_package, on: :create
-  after_commit :record_archive_async, on: :create
+  # after_commit :record_archive_async, on: :create
 
   scope :newest_first, -> { order("versions.published_at DESC") }
 
