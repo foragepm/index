@@ -23,6 +23,8 @@ class Package < ApplicationRecord
   has_many :dependent_versions, through: :dependents, source: :version, class_name: 'Version'
   has_many :dependent_packages, -> { group('packages.id') }, through: :dependent_versions, source: :packages, class_name: 'Package'
 
+  has_many :archives
+
   scope :platform, ->(platform) { where(platform: PackageManager::Base.format_name(platform)) }
   scope :lower_platform, ->(platform) { where('lower(packages.platform) = ?', platform.try(:downcase)) }
   scope :lower_name, ->(name) { where('lower(packages.name) = ?', name.try(:downcase)) }
