@@ -90,6 +90,11 @@ module PackageManager
       end
     end
 
+    def self.integrity(version)
+      dist = version.fetch("dist", {})
+      dist.fetch("integrity", nil) || dist.fetch("shasum", nil)
+    end
+
     def self.versions(package, _name)
       # npm license fields are supposed to be SPDX expressions now https://docs.npmjs.com/files/package.json#license
       package["versions"].map do |k, v|
@@ -99,6 +104,7 @@ module PackageManager
           number: k,
           published_at: package.fetch("time", {}).fetch(k, nil),
           original_license: license,
+          integrity: integrity(v)
         }
       end
     end

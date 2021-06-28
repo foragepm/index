@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_28_093718) do
+ActiveRecord::Schema.define(version: 2021_06_28_141854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2021_06_28_093718) do
     t.string "cid"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "integrity"
     t.index ["package_id"], name: "index_archives_on_package_id"
     t.index ["version_id"], name: "index_archives_on_version_id"
   end
@@ -76,6 +77,7 @@ ActiveRecord::Schema.define(version: 2021_06_28_093718) do
     t.jsonb "original_license"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "integrity"
     t.index ["package_id", "number"], name: "index_versions_on_package_id_and_number", unique: true
   end
 

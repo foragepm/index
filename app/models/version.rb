@@ -97,7 +97,7 @@ class Version < ApplicationRecord
     client = Ipfs::Client.new(ENV['IPFS_API'] || 'http://localhost:5001')
     res = client.urlstore_add(download_url)
     if res["Key"].present?
-      Archive.create(version_id: id, package_id: package_id, url: download_url, cid: res["Key"], size: res["Size"])
+      Archive.create(version_id: id, package_id: package_id, url: download_url, cid: res["Key"], size: res["Size"], integrity: integrity)
     end
   end
 end
