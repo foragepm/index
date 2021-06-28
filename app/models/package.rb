@@ -78,7 +78,7 @@ class Package < ApplicationRecord
   end
 
   def archive_latest_version
-    latest_version.try(:record_archive)
+    ArchiveVersionWorker.perform_async(latest_version.id) if latest_version
   end
 
   def forced_save
