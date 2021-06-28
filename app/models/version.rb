@@ -94,10 +94,14 @@ class Version < ApplicationRecord
 
   def record_archive
     return true if archives.any?
-    client = Ipfs::Client.new(ENV['IPFS_API'] || 'http://localhost:5001')
-    res = client.urlstore_add(download_url)
-    if res["Key"].present?
-      Archive.create(version_id: id, package_id: package_id, url: download_url, cid: res["Key"], size: res["Size"], integrity: integrity)
+    begin
+      client = Ipfs::Client.new(ENV['IPFS_API'] || 'http://localhost:5001')
+      res = client.urlstore_add(download_url)
+      if res["Key"].present?
+        Archive.create(version_id: id, package_id: package_id, url: download_url, cid: res["Key"], size: res["Size"], integrity: integrity)
+      end
+    rescue Ipfs::Commands::Error
+      # ipfs add failed
     end
   end
 end
