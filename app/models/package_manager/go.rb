@@ -65,7 +65,8 @@ module PackageManager
       versions.map do |v|
         {
           number: v,
-          published_at: get_version(package[:name], v).fetch('Time')
+          published_at: get_version(package[:name], v).fetch('Time'),
+          integrity: integrity(package[:name], v)
         }
       end
     rescue StandardError
@@ -85,6 +86,11 @@ module PackageManager
       end
     rescue StandardError
       []
+    end
+
+    def self.integrity(name, version)
+      sum = get_raw("https://sum.golang.org/lookup/#{escape_name(name)}@#{version}")
+      sum.split("\n")[1].split(' ')[2]
     end
 
     # https://golang.org/cmd/go/#hdr-Import_path_syntax
