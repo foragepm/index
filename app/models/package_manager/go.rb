@@ -19,6 +19,9 @@ module PackageManager
       '.svn',
     ]
 
+    def self.escape_name(name)
+      name.gsub(/([A-Z])/){'!'+$1.downcase}
+    end
 
     def self.package_link(package, version = nil)
       "https://pkg.go.dev/#{package.name}#{"@#{version}" if version}"
@@ -26,6 +29,11 @@ module PackageManager
 
     def self.documentation_url(name, version = nil)
       "https://pkg.go.dev/#{name}#{"@#{version}" if version}?tab=doc"
+    end
+
+    def self.download_url(name, version = nil)
+      return if version.nil?
+      "https://proxy.golang.org/#{escape_name(name)}/@v/#{version}.zip"
     end
 
     def self.install_instructions(package, version = nil)
@@ -51,7 +59,7 @@ module PackageManager
     end
 
     def self.versions(package, _name)
-      txt = get_raw("https://proxy.golang.org/#{package[:name]}/@v/list")
+      txt = get_raw("https://proxy.golang.org/#{escape_name(package[:name])}/@v/list")
       versions = txt.split("\n")
 
       versions.map do |v|
@@ -65,7 +73,7 @@ module PackageManager
     end
 
     def self.dependencies(name, version, _package)
-      mod_file = get_raw("https://proxy.golang.org/#{name}/@v/#{version}.mod")
+      mod_file = get_raw("https://proxy.golang.org/#{escape_name(name)}/@v/#{version}.mod")
 
       Bibliothecary::Parsers::Go.parse_go_mod(mod_file).map do |dep|
         {
@@ -104,7 +112,7 @@ module PackageManager
     end
 
     def self.get_version(package_name, version)
-      get_json("https://proxy.golang.org/#{package_name}/@v/#{version}.info")
+      get_json("https://proxy.golang.org/#{escape_name(package_name)}/@v/#{version}.info")
     end
 
     def self.dependents(name)
