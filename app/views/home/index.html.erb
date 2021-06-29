@@ -3,17 +3,17 @@
 # number of saved archives
 # total size of saved archives -->
 <h1 class="display-1">
-  <span class='text-primary'><%= number_to_human Package.count %></span> packages indexed
+  <span class='text-primary'><%= number_to_human Package.count, precision: 4 %></span> packages indexed
 </h1>
 
 <h1 class="display-2">
-  <span class='text-success'><%= number_to_human Version.count %></span> versions found
+  <span class='text-success'><%= number_to_human Version.count, precision: 5 %></span> versions found
 </h1>
 
 <h1 class="display-3">
-  <span class='text-danger'><%= number_to_human Archive.count %></span> tarballs archived
+  <span class='text-danger'><%= number_to_human Archive.count, precision: 5 %></span> tarballs archived
 </h1>
 
 <h1 class="display-3">
-  <span class='text-info'><%= number_to_human_size(Archive.sum(:size)) %></span> stored
+  <span class='text-info'><%= number_to_human_size(Archive.sum(:size), precision: 5) %></span> stored
 </h1>
