@@ -45,6 +45,7 @@ gem 'rack-cors'
 gem 'dalli'
 
 gem 'sidekiq'
+gem 'sidekiq-unique-jobs'
 
 gem 'ipfs-http-client', github: 'andrew/ipfs-http-client'
 
