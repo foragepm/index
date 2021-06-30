@@ -109,6 +109,8 @@ class Version < ApplicationRecord
       end
     rescue Ipfs::Commands::Error
       # ipfs add failed
+    rescue HTTP::ConnectionError
+      # can't reach ipfs node
     end
   end
 end
