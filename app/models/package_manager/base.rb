@@ -100,7 +100,7 @@ module PackageManager
       end
 
       if self::HAS_VERSIONS
-        versions(package, dbpackage.name).sort_by{|v| v[:published_at]}.reverse.first(5).each do |version|
+        versions(package, dbpackage.name).sort_by{|v| v[:published_at]}.reverse.first(10).each do |version|
           dbpackage.versions.create(version) unless dbpackage.versions.find { |v| v.number == version[:number] }
         end
       end
