@@ -15,5 +15,9 @@
 </h1>
 
 <h1 class="display-3">
-  <span class='text-info'><%= number_to_human_size(Archive.sum(:size), precision: 5) %></span> stored
+  <span class='text-info'><%= number_to_human_size(Archive.sum(:size), precision: 5) %></span> stored in <%= link_to 'IPFS', 'https://ipfs.io' %>
+</h1>
+
+<h1 class="display-4">
+  <span class='text-warning'><%= number_to_human(Archive.where.not(pin_id: nil).count, precision: 4) %></span> pins in <%= link_to 'Estuary', 'https://estuary.tech' %>
 </h1>
