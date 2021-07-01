@@ -5,7 +5,7 @@ namespace :archives do
   end
 
   task add_to_estuary: :environment do
-    ids = Archive.where.not(pin_id: nil).limit(1000).pluck(:id)
+    ids = Archive.where(pin_id: nil).limit(1000).pluck(:id)
     ids.each{|id| EstuaryArchiveWorker.perform_async(id) }
   end
 end
