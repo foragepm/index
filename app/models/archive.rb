@@ -9,6 +9,7 @@ class Archive < ApplicationRecord
   end
 
   def add_to_estuary
+    return if pin_id.present?
     data = {
       name: "#{id}-#{url.split('/').last}",
       root: cid
