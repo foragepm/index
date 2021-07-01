@@ -2,7 +2,7 @@ class Archive < ApplicationRecord
   belongs_to :version
   belongs_to :package
 
-  # after_commit :add_to_estuary_async, on: :create
+  after_commit :add_to_estuary_async, on: :create
 
   def add_to_estuary_async
     EstuaryArchiveWorker.perform_async(id)
@@ -12,15 +12,16 @@ class Archive < ApplicationRecord
     return if pin_id.present?
     data = {
       name: "#{id}-#{url.split('/').last}",
-      root: cid
+      cid: cid,
+      origins: ENV['IPFS_ADDRS'].split(',')
     }
     headers = {
       "Content-Type" => "application/json",
       "Authorization" => "Bearer #{ENV['ESTUARY_API_KEY']}"
     }
-    url = 'https://api.estuary.tech/content/add-ipfs'
+    url = 'https://api.estuary.tech/pinning/pins'
     response = Faraday.post(url, data.to_json, headers)
     json = JSON.parse(response.body)
-    update(pin_id: json["content"]["id"])
+    update(pin_id: json["requestid"], pinned_at: Time.zone.now)
   end
 end
