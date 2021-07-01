@@ -2,7 +2,7 @@ class Archive < ApplicationRecord
   belongs_to :version
   belongs_to :package
 
-  after_commit :add_to_estuary_async, on: :create
+  # after_commit :add_to_estuary_async, on: :create
 
   def add_to_estuary_async
     EstuaryArchiveWorker.perform_async(id)
