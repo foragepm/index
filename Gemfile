@@ -49,6 +49,8 @@ gem 'sidekiq-unique-jobs'
 
 gem 'ipfs-http-client', github: 'andrew/ipfs-http-client'
 
+gem "simple-rss"
+
 group :development do
   gem 'web-console'
   gem 'listen'
