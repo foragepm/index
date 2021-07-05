@@ -43,4 +43,15 @@ class Archive < ApplicationRecord
       update(pin_status: json["status"])
     end
   end
+
+  def remove_pin
+    return unless pin_id.present?
+    headers = {
+      "Content-Type" => "application/json",
+      "Authorization" => "Bearer #{ENV['ESTUARY_API_KEY']}"
+    }
+    url = "https://api.estuary.tech/pinning/pins/#{pin_id}"
+    response = Faraday.delete(url, {}, headers)
+    response.success?
+  end
 end
