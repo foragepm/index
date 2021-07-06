@@ -35,7 +35,7 @@ class Deal < ApplicationRecord
     contents = Oj.load(response.body)
     contents.each do |content|
       a = Archive.find_by_cid(content['cid'])
-      a.update(deal_id: id) if a.present? && a.deal_id.blank?
+      a.update_columns(deal_id: id) if a.present? && a.deal_id.blank?
     end
   end
 end
