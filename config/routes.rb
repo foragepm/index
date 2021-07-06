@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     resources :packages
   end
 
+  resources :deals
+
   resources :packages do
     resources :versions
     collection do

@@ -1,0 +1,6 @@
+<h2>
+  <%= link_to 'Deals', deals_path %> / <%= @deal.cid %>
+</h2>
+
+<%= render @archives %>
+<%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>

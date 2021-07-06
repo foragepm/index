@@ -21,3 +21,7 @@
 <h1 class="display-4">
   <span class='text-warning'><%= number_to_human(Archive.where.not(pin_id: nil).count, precision: 3) %></span> pins in <%= link_to 'Estuary', 'https://estuary.tech' %>
 </h1>
+
+<h1 class="display-4">
+  <span class='text-secondary'><%= number_to_human(Deal.count, precision: 3) %></span> Filecoin <%= link_to 'deals', deals_path %>
+</h1>
