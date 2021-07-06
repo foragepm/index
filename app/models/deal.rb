@@ -1,5 +1,7 @@
 class Deal < ApplicationRecord
 
+  after_commit :load_contents, on: :create
+
   def self.sync_deals
     json = load_deals
     json.each do |deal_json|
