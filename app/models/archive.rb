@@ -26,7 +26,7 @@ class Archive < ApplicationRecord
     response = Faraday.post(url, data.to_json, headers)
     if response.success?
       json = Oj.load(response.body)
-      update(pin_id: json["requestid"], pinned_at: Time.zone.now, pin_status: json["status"])
+      update_columns(pin_id: json["requestid"], pinned_at: Time.zone.now, pin_status: json["status"], updated_at: Time.zone.now)
     end
   end
 
@@ -40,7 +40,7 @@ class Archive < ApplicationRecord
     response = Faraday.get(url, {}, headers)
     if response.success?
       json = Oj.load(response.body)
-      update(pin_status: json["status"])
+      update_columns(pin_status: json["status"], updated_at: Time.zone.now)
     end
   end
 
