@@ -25,7 +25,7 @@ class Archive < ApplicationRecord
     url = 'https://api.estuary.tech/pinning/pins'
     response = Faraday.post(url, data.to_json, headers)
     if response.success?
-      json = JSON.parse(response.body)
+      json = Oj.load(response.body)
       update(pin_id: json["requestid"], pinned_at: Time.zone.now, pin_status: json["status"])
     end
   end
@@ -39,7 +39,7 @@ class Archive < ApplicationRecord
     url = "https://api.estuary.tech/pinning/pins/#{pin_id}"
     response = Faraday.get(url, {}, headers)
     if response.success?
-      json = JSON.parse(response.body)
+      json = Oj.load(response.body)
       update(pin_status: json["status"])
     end
   end

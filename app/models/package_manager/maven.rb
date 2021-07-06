@@ -146,7 +146,7 @@ module PackageManager
     end
 
     def self.versions(package, _name)
-      json_versions = JSON.parse(get_raw(MavenUrl.from_name(package[:name]).solrsearch))
+      json_versions = Oj.load(get_raw(MavenUrl.from_name(package[:name]).solrsearch))
       extract_versions(json_versions)
     end
 
