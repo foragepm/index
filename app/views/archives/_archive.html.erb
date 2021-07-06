@@ -1,7 +1,7 @@
 <div class="card mb-3">
   <div class="card-body">
     <h5 class="card-title">
-      <%= archive.package.platform_name %> <%= link_to archive.package.name, archive.package.package_manager_url %>@<%= archive.version.number %>
+      <%= archive.package.platform_name %> <%= link_to archive.package.name, archive.package.package_manager_url, target: :_blank %>@<%= archive.version.number %>
     </h5>
     <small class='text-muted'>
       Size: <%= number_to_human_size archive.size %><br/>
