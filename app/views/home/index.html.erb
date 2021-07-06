@@ -2,22 +2,22 @@
 # version count
 # number of saved archives
 # total size of saved archives -->
-<h1 class="display-1">
-  <span class='text-primary'><%= number_to_human Package.count, precision: 4 %></span> packages indexed
-</h1>
-
-<h1 class="display-2">
-  <span class='text-success'><%= number_to_human Version.count, precision: 4 %></span> versions found
+<h1 class="display-3">
+  <span class='text-primary'><%= number_to_human Package.count, precision: 3 %></span> packages indexed
 </h1>
 
 <h1 class="display-3">
-  <span class='text-danger'><%= number_to_human Archive.count, precision: 4 %></span> tarballs archived
-</h1>
-
-<h1 class="display-3">
-  <span class='text-info'><%= number_to_human_size(Archive.sum(:size), precision: 5) %></span> stored in <%= link_to 'IPFS', 'https://ipfs.io' %>
+  <span class='text-success'><%= number_to_human Version.count, precision: 3 %></span> versions found
 </h1>
 
 <h1 class="display-4">
-  <span class='text-warning'><%= number_to_human(Archive.where.not(pin_id: nil).count, precision: 4) %></span> pins in <%= link_to 'Estuary', 'https://estuary.tech' %>
+  <span class='text-danger'><%= number_to_human Archive.count, precision: 43 %></span> tarballs archived
+</h1>
+
+<h1 class="display-4">
+  <span class='text-info'><%= number_to_human_size(Archive.sum(:size), precision: 4) %></span> stored in <%= link_to 'IPFS', 'https://ipfs.io' %>
+</h1>
+
+<h1 class="display-4">
+  <span class='text-warning'><%= number_to_human(Archive.where.not(pin_id: nil).count, precision: 3) %></span> pins in <%= link_to 'Estuary', 'https://estuary.tech' %>
 </h1>
