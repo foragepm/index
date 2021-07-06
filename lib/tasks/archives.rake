@@ -10,7 +10,7 @@ namespace :archives do
   end
 
   task check_pin_statuses: :environment do
-    ids = Archive.pinned.where(pin_status: nil).limit(2000).pluck(:id)
+    ids = Archive.pinned.where.not(pin_status: ['pinned', 'failed']).limit(2000).order('updated_at ASC').pluck(:id)
     ids.each{|id| CheckPinStatusWorker.perform_async(id) }
   end
 end
