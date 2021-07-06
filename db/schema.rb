@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_06_114559) do
+ActiveRecord::Schema.define(version: 2021_07_06_150903) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2021_07_06_114559) do
     t.datetime "pinned_at"
     t.string "pin_status"
     t.integer "deal_id"
+    t.index ["cid"], name: "index_archives_on_cid"
     t.index ["package_id"], name: "index_archives_on_package_id"
     t.index ["version_id"], name: "index_archives_on_version_id"
   end
