@@ -7,7 +7,7 @@
 </h1>
 
 <h1 class="display-3">
-  <span class='text-success'><%= number_to_human Version.count, precision: 3 %></span> versions found
+  <span class='text-success'><%= number_to_human Version.where(yanked:false).count, precision: 3 %></span> versions found
 </h1>
 
 <h1 class="display-4">
