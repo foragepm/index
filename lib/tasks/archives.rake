@@ -1,6 +1,6 @@
 namespace :archives do
   task record_recent: :environment do
-    ids = Version.where(yanked: false).without_archives.limit(2000).pluck(:id)
+    ids = Version.where(yanked: false).without_archives.limit(1000).pluck(:id)
     ids.each{|id| ArchiveVersionWorker.perform_async(id) }
   end
 
@@ -11,7 +11,7 @@ namespace :archives do
 
   task check_pin_statuses: :environment do
     Archive.pinned.where(pin_status: 'pinning').each(&:check_pin_status)
-    ids = Archive.pinned.where(pin_status: 'queued').limit(2000).order('updated_at ASC').pluck(:id)
+    ids = Archive.pinned.where(pin_status: 'queued').limit(1000).order('updated_at ASC').pluck(:id)
     ids.each{|id| CheckPinStatusWorker.perform_async(id) }
   end
 end
