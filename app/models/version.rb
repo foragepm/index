@@ -107,7 +107,11 @@ class Version < ApplicationRecord
       if res["Key"].present?
         Archive.create(version_id: id, package_id: package_id, url: download_url, cid: res["Key"], size: res["Size"], integrity: integrity)
       end
-    rescue Ipfs::Commands::Error
+    rescue Ipfs::Commands::Error => e
+      json = Oj.load(e.message)
+      if json['Message'] && json['Message'].include?('got non-2XX status code 4')
+        update_columns(yanked: true)
+      end
       # ipfs add failed
     rescue HTTP::ConnectionError
       # can't reach ipfs node
