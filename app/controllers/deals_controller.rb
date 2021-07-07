@@ -1,6 +1,6 @@
 class DealsController < ApplicationController
   def index
-    @pagy, @deals = pagy(Deal.all)
+    @pagy, @deals = pagy(Deal.order('created_at DESC'))
   end
 
   def show
