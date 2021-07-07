@@ -1,0 +1,22 @@
+<h2>Stats</h2>
+<p>
+  <%= @without_archives %> versions without archives
+</p>
+
+<p>
+  <%= @yanked %> yanked versions
+</p>
+
+<p>
+  <%= @not_pinned %> archives not yet pinned
+</p>
+
+<h4>Pin statuses</h4>
+
+<ul>
+  <% @statuses.each do |status, count| %>
+    <li>
+      <%= count %> <%= status %> archives
+    </li>
+  <% end %>
+</ul>

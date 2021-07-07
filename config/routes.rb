@@ -28,5 +28,7 @@ Rails.application.routes.draw do
     match :failure,              to: 'sessions#failure', via: [:get, :post]
   end
 
+  get '/stats', to: 'home#stats'
+
   root to: 'home#index'
 end
