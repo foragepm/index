@@ -1,6 +1,6 @@
 namespace :archives do
   task record_recent: :environment do
-    ids = Version.without_archives.limit(2000).pluck(:id)
+    ids = Version.where(yanked: false).without_archives.limit(2000).pluck(:id)
     ids.each{|id| ArchiveVersionWorker.perform_async(id) }
   end
 
