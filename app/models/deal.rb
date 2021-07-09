@@ -7,6 +7,7 @@ class Deal < ApplicationRecord
 
   def self.sync_deals
     json = load_deals
+    return unless json.present?
     json.each do |deal_json|
       deal = Deal.find_or_initialize_by(deal_id: deal_json["id"])
       deal.cid = deal_json["cid"]
@@ -23,7 +24,9 @@ class Deal < ApplicationRecord
     }
     url = 'https://api.estuary.tech/content/deals'
     response = Faraday.get(url, {}, headers)
-    Oj.load(response.body)
+    if response.success?
+      Oj.load(response.body)
+    end
   end
 
   def load_contents
@@ -35,10 +38,26 @@ class Deal < ApplicationRecord
     url = "https://api.estuary.tech/content/aggregated/#{deal_id}"
 
     response = Faraday.get(url, {}, headers)
-    contents = Oj.load(response.body)
-    contents.each do |content|
-      a = Archive.find_by_cid(content['cid'])
-      a.update_columns(deal_id: id) if a.present? && a.deal_id.blank?
+    if response.success?
+      contents = Oj.load(response.body)
+      contents.each do |content|
+        a = Archive.find_by_cid(content['cid'])
+        a.update_columns(deal_id: id) if a.present? && a.deal_id.blank?
+      end
+    end
+  end
+
+  def load_status
+    headers = {
+      "Content-Type" => "application/json",
+      "Authorization" => "Bearer #{ENV['ESTUARY_API_KEY']}"
+    }
+
+    url = "https://api.estuary.tech/content/status/#{deal_id}"
+
+    response = Faraday.get(url, {}, headers)
+    if response.success?
+      json = Oj.load(response.body)
     end
   end
 end
