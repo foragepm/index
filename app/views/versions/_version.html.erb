@@ -9,6 +9,9 @@
       <% if archive %>
         Size: <%= number_to_human_size archive.size %><br/>
         CID: <%= link_to archive.cid, "https://dweb.link/ipfs/#{archive.cid}?filename=#{archive.filename}", target: :_blank %>
+        <% if archive.deal.present? %>
+          <br/>Filecoin deal: <%= link_to archive.deal.cid, deal_path(archive.deal) %>
+        <% end %>
         <% if archive.integrity.present? %>
         <br/>Integrity: <%= archive.integrity %>
         <% end %>
