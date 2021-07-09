@@ -1,7 +1,7 @@
 class Archive < ApplicationRecord
   belongs_to :version
   belongs_to :package
-  belongs_to :deal
+  belongs_to :deal, optional: true
 
   scope :not_pinned, -> { where(pin_id: nil) }
   scope :pinned, -> { where.not(pin_id: nil) }
