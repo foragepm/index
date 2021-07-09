@@ -10,7 +10,7 @@ class PackagesController < ApplicationController
   end
 
   def recent
-    @scope = Package.order('created_at DESC')
+    @scope = Package.with_versions.order('created_at DESC')
     @pagy, @packages = pagy(@scope)
   end
 
