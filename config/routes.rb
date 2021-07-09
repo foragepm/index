@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     collection do
       post :import
       get :search
+      get :recent
     end
   end
 

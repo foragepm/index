@@ -11,10 +11,14 @@ class Archive < ApplicationRecord
     EstuaryArchiveWorker.perform_async(id)
   end
 
+  def filename
+    url.split('/').last
+  end
+
   def pin
     return if pin_id.present?
     data = {
-      name: "#{id}-#{url.split('/').last}",
+      name: "#{id}-#{filename}",
       cid: cid,
       origins: ENV['IPFS_ADDRS'].split(',')
     }

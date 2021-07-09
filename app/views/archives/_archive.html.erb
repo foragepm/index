@@ -5,7 +5,7 @@
     </h5>
     <small class='text-muted'>
       Size: <%= number_to_human_size archive.size %><br/>
-      CID: <%= link_to archive.cid, "https://dweb.link/ipfs/#{archive.cid}", target: :_blank %>
+      CID: <%= link_to archive.cid, "https://dweb.link/ipfs/#{archive.cid}?filename=#{archive.filename}", target: :_blank %>
       <% if archive.integrity.present? %>
       <br/>Integrity: <%= archive.integrity %>
       <% end %>

@@ -1,0 +1,16 @@
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title">
+      <%= package.platform_name %> <%= link_to package.name, package_path(package) %>
+    </h5>
+
+    <p><%= truncate package.description, :length => 100 %></p>
+
+    <small class='text-muted'>
+      Latest release <%= package.latest_release_number %> -
+      <%= package.versions_count > 1 ? 'Updated' : 'Published' %>
+      <%= time_ago_in_words package.latest_release_published_at %> ago
+      - Indexed <%= time_ago_in_words package.created_at %> ago
+    </small>
+  </div>
+</div>

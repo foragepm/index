@@ -1,5 +1,4 @@
 class PackagesController < ApplicationController
-
   skip_before_action :verify_authenticity_token, only: [:import]
 
   def import
@@ -8,5 +7,16 @@ class PackagesController < ApplicationController
     end
 
     head :ok
+  end
+
+  def recent
+    @scope = Package.order('created_at DESC')
+    @pagy, @packages = pagy(@scope)
+  end
+
+  def show
+    @package = Package.find(params[:id])
+    @version_scope = @package.versions.order('published_at DESC').includes(:archives)
+    @pagy, @versions = pagy(@version_scope)
   end
 end
