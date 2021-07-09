@@ -2,6 +2,7 @@ class Deal < ApplicationRecord
 
   after_commit :load_contents, on: :create
 
+  scope :aggregate, -> { where('cid like ?', 'Qm%') }
   scope :with_files, -> { where('files_count > 0') }
 
   def self.sync_deals

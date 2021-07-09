@@ -23,5 +23,5 @@
 </h1>
 
 <h1 class="display-4">
-  <span class='text-secondary'><%= number_to_human(Deal.with_files.count, precision: 3) %></span> Filecoin <%= link_to 'deals', deals_path %>
+  <span class='text-secondary'><%= number_to_human(Deal.aggregate.count, precision: 3) %></span> Filecoin <%= link_to 'deals', deals_path %>
 </h1>
