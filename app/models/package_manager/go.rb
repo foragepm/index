@@ -62,7 +62,7 @@ module PackageManager
       txt = get_raw("https://proxy.golang.org/#{escape_name(package[:name])}/@v/list")
       versions = txt.split("\n")
 
-      versions.map do |v|
+      versions.first(20).map do |v|
         {
           number: v,
           published_at: get_version(package[:name], v).fetch('Time'),
