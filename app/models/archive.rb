@@ -6,7 +6,7 @@ class Archive < ApplicationRecord
   scope :not_pinned, -> { where(pin_id: nil) }
   scope :pinned, -> { where.not(pin_id: nil) }
 
-  after_commit :pin_async, on: :create
+  # after_commit :pin_async, on: :create
 
   def pin_async
     EstuaryArchiveWorker.perform_async(id)
