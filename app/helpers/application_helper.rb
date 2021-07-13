@@ -1,5 +1,6 @@
 module ApplicationHelper
   include Pagy::Frontend
+  include SanitizeUrl
   ALERT_TYPES = {
     success: 'alert-success',
     error: 'alert-danger',

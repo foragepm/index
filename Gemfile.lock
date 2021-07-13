@@ -294,6 +294,7 @@ GEM
     request_store (1.5.0)
       rack (>= 1.4)
     ruby2_keywords (0.0.4)
+    sanitize-url (0.1.4)
     sassc (2.4.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -403,6 +404,7 @@ DEPENDENCIES
   puma_worker_killer
   rack-cors
   rails
+  sanitize-url
   sassc-rails
   semantic!
   semantic_range (= 2.3.1)

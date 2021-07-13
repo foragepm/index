@@ -50,6 +50,7 @@ gem 'sidekiq-unique-jobs'
 gem 'ipfs-http-client', github: 'andrew/ipfs-http-client'
 
 gem "simple-rss"
+gem "sanitize-url"
 
 group :development do
   gem 'web-console'
