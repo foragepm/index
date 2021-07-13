@@ -16,6 +16,9 @@ class PackagesController < ApplicationController
     keys.each_with_index do |key, i|
       results[key] = cids[i]
     end
+
+    # TODO any missed keys should be scheduled for indexing
+
     render json: results
   end
 
