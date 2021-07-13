@@ -17,7 +17,10 @@ class PackagesController < ApplicationController
       results[key] = cids[i]
     end
 
-    # TODO any missed keys should be scheduled for indexing
+    results.select{|k,v| v.nil?}.each do |k,_v|
+      parts = k.split(':')
+      ImportPackageWorker.perform_async(parts[0], parts[1])
+    end
 
     render json: results
   end
