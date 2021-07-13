@@ -12,6 +12,8 @@ Rails.application.routes.draw do
 
   resources :deals
 
+  get '/versions/recent', to: 'versions#recent', as: :recent_versions
+
   resources :packages do
     resources :versions
     collection do

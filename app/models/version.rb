@@ -10,7 +10,7 @@ class Version < ApplicationRecord
   counter_culture :package
   has_many :dependencies, dependent: :delete_all
   has_many :runtime_dependencies, -> { where kind: %w[runtime normal] }, class_name: "Dependency"
-  has_many :archives
+  has_many :archives, dependent: :destroy
 
   scope :without_archives, -> { includes(:archives).where(archives: {version_id: nil}) }
 

@@ -1,8 +1,12 @@
 <div class="card mb-3">
   <div class="card-body">
     <h5 class="card-title">
+      <%= version.package.platform_name %> <%= link_to version.package.name, package_path(version.package) %>
       <%= version.number %>
     </h5>
+
+    <p><%= truncate version.package.description, :length => 100 %></p>
+
     <% archive = version.archives.first %>
     <small class='text-muted'>
       Published: <%= time_ago_in_words version.published_at %> ago
