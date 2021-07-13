@@ -3,6 +3,7 @@ require 'pagy/extras/array'
 require 'pagy/extras/headers'
 require 'pagy/extras/overflow'
 require 'pagy/extras/items'
+require 'pagy/extras/countless'
 
 Pagy::VARS[:overflow] = :last_page
 

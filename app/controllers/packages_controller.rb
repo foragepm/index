@@ -11,7 +11,7 @@ class PackagesController < ApplicationController
 
   def recent
     @scope = Package.with_versions.order('created_at DESC')
-    @pagy, @packages = pagy(@scope)
+    @pagy, @packages = pagy_countless(@scope)
   end
 
   def show

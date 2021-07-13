@@ -1,6 +1,6 @@
 class VersionsController < ApplicationController
   def recent
     @scope = Version.includes(:package).order('published_at DESC')
-    @pagy, @versions = pagy(@scope)
+    @pagy, @versions = pagy_countless(@scope)
   end
 end
