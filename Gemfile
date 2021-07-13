@@ -29,6 +29,7 @@ gem "license-compatibility"
 gem "semantic", git: "https://github.com/librariesio/semantic"
 gem "semantic_range", '2.3.1'
 gem 'oj'
+gem 'oj_mimic_json'
 gem 'ox'
 gem 'faraday'
 gem "faraday_middleware"
