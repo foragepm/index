@@ -99,6 +99,10 @@ class Version < ApplicationRecord
     ArchiveVersionWorker.perform_async(id)
   end
 
+  def redis_key
+    "#{package.platform_name.downcase}:#{package.name}:#{number}"
+  end
+
   def record_archive
     return true if archives.any?
     begin
@@ -106,7 +110,7 @@ class Version < ApplicationRecord
       res = client.urlstore_add(download_url)
       if res["Key"].present?
         Archive.create(version_id: id, package_id: package_id, url: download_url, cid: res["Key"], size: res["Size"], integrity: integrity)
-        $redis.set("#{package.platform_name.downcase}:#{package.name}:#{number}", res["Key"])
+        $redis.set(redis_key, res["Key"])
       end
     rescue Ipfs::Commands::Error => e
       json = Oj.load(e.message)
