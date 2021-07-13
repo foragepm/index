@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     resources :versions
     collection do
       post :import
+      get :lookup
       get :search
       get :recent
     end

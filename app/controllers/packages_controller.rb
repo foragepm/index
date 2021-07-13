@@ -1,5 +1,5 @@
 class PackagesController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: [:import]
+  skip_before_action :verify_authenticity_token, only: [:import, :lookup]
 
   def import
     if params[:api_key] == ENV['IMPORT_API_KEY']
@@ -7,6 +7,16 @@ class PackagesController < ApplicationController
     end
 
     head :ok
+  end
+
+  def lookup
+    keys = params[:keys].split(',').first(1000)
+    cids = $redis.mget(keys)
+    results = {}
+    keys.each_with_index do |key, i|
+      results[key] = cids[i]
+    end
+    render json: results
   end
 
   def recent
