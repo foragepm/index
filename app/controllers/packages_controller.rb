@@ -17,6 +17,6 @@ class PackagesController < ApplicationController
   def show
     @package = Package.find(params[:id])
     @version_scope = @package.versions.order('published_at DESC').includes(archives: :deal)
-    @pagy, @versions = pagy(@version_scope)
+    @pagy, @versions = pagy_countless(@version_scope)
   end
 end
