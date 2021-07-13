@@ -40,4 +40,9 @@ module ApplicationHelper
     title += "#{@page_title} - " if @page_title.present?
     title += "Forage"
   end
+
+  def sanitize_user_url(url)
+    return unless url =~ /\A#{URI::regexp}\z/
+    sanitize_url(url, :schemes => ['http', 'https'])
+  end
 end

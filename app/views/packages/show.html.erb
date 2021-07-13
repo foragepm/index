@@ -8,11 +8,11 @@
   <% if link = @package.package_manager_url(@package.latest_release_number) %>
     <%= link_to 'Registry', link %>
   <% end %>
-  <% if @package.repository_url.present? && @package.repository_url != @package.package_manager_url %>
-    - <%= link_to 'Source', @package.repository_url, :rel => 'nofollow' %>
+  <% if sanitize_user_url(@package.repository_url).present? && @package.repository_url != @package.package_manager_url %>
+    - <%= link_to 'Source', sanitize_user_url(@package.repository_url), :rel => 'nofollow' %>
   <% end %>
-  <% if @package.homepage.present?  && @package.repository_url != @package.homepage %>
-    - <%= link_to('Homepage', sanitize_url(@package.homepage), :rel => 'nofollow') %>
+  <% if sanitize_user_url(@package.homepage).present?  && @package.repository_url != @package.homepage %>
+    - <%= link_to('Homepage', sanitize_user_url(@package.homepage), :rel => 'nofollow') %>
   <% end %>
 
   <% if link = @package.documentation_url(@package.latest_release_number) %>
