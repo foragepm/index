@@ -110,7 +110,7 @@ class Version < ApplicationRecord
       res = client.urlstore_add(download_url)
       if res["Key"].present?
         Archive.create(version_id: id, package_id: package_id, url: download_url, cid: res["Key"], size: res["Size"], integrity: integrity)
-        $redis.set(redis_key, res["Key"])
+        # $redis.set(redis_key, res["Key"])
       end
     rescue Ipfs::Commands::Error => e
       json = Oj.load(e.message)
