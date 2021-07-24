@@ -5,8 +5,8 @@ namespace :archives do
   end
 
   task add_to_estuary: :environment do
-    # ids = Archive.not_pinned.limit(2000).pluck(:id)
-    # ids.each{|id| EstuaryArchiveWorker.perform_async(id) }
+    ids = Archive.not_pinned.limit(1000).pluck(:id)
+    ids.each{|id| EstuaryArchiveWorker.perform_async(id) }
   end
 
   task check_pin_statuses: :environment do
