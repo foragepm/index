@@ -59,4 +59,11 @@ class Archive < ApplicationRecord
     response = Faraday.delete(url, {}, headers)
     response.success?
   end
+
+  def check_availability
+    response = Faraday.head(url)
+    version.update_columns(yanked: true)
+    remove_pin if response.status == 404
+    self.destroy
+  end
 end
