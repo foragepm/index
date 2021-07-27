@@ -68,4 +68,25 @@ class Archive < ApplicationRecord
       self.destroy
     end
   end
+
+  def self.check_pin_status
+    headers = {
+      "Content-Type" => "application/json",
+      "Authorization" => "Bearer #{ENV['ESTUARY_API_KEY']}"
+    }
+    # TODO pagination
+    first = Archive.where(pin_status: 'queued').order('pinned_at ASC').first
+    after = first.try(:pinned_at)
+
+    url = "https://api.estuary.tech/pinning/pins?limit=100&after=#{after.to_s(:db)}"
+    p url
+    response = Faraday.get(url, {}, headers)
+    if response.success?
+      json = Oj.load(response.body)
+      json['results'].each do |res|
+        a = Archive.find_by_pin_id(res['requestid'])
+        a.update(pin_status: res['status']) if a.present? && a.pin_status != res['status']
+      end
+    end
+  end
 end
