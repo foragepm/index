@@ -78,7 +78,7 @@ class Archive < ApplicationRecord
     first = Archive.where(pin_status: 'queued').order('pinned_at ASC').first
     after = first.try(:pinned_at)
 
-    url = "https://api.estuary.tech/pinning/pins?limit=100&after=#{after.to_s(:db)}"
+    url = "https://api.estuary.tech/pinning/pins?limit=100&after=#{after.to_s(:iso8601)}"
     p url
     response = Faraday.get(url, {}, headers)
     if response.success?
