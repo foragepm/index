@@ -83,7 +83,7 @@ class Archive < ApplicationRecord
       json = Oj.load(response.body)
       json['results'].each do |res|
         a = Archive.find_by_pin_id(res['requestid'])
-        a.update(pin_status: res['status']) if a.present? && a.pin_status != res['status']
+        a.update_columns(pin_status: res['status'], updated_at: Time.now) if a.present? && a.pin_status != res['status']
       end
     end
   end
