@@ -10,8 +10,7 @@ namespace :archives do
   end
 
   task check_pin_statuses: :environment do
-    ids = Archive.pinned.where(pin_status: 'pinning').limit(1000).order('updated_at ASC').pluck(:id)
-    ids += Archive.pinned.where(pin_status: 'queued').limit(1000).order('updated_at ASC').pluck(:id)
+    ids = Archive.pinned.where(pin_status: ['pinning', 'queued']).limit(1000).order('pinned_at ASC').pluck(:id)
     ids.each{|id| CheckPinStatusWorker.perform_async(id) }
   end
 end
