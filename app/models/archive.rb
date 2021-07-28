@@ -77,13 +77,26 @@ class Archive < ApplicationRecord
     # TODO pagination
     first = Archive.where(pin_status: 'queued').order('pinned_at ASC').first
     after = first.try(:pinned_at)
+    batch_update_pin_status(after) if after
+  end
+
+  def self.batch_update_pin_status(after)
+    headers = {
+      "Content-Type" => "application/json",
+      "Authorization" => "Bearer #{ENV['ESTUARY_API_KEY']}"
+    }
     url = "https://api.estuary.tech/pinning/pins?limit=100&after=#{after.to_s(:iso8601)}"
     response = Faraday.get(url, {}, headers)
     if response.success?
       json = Oj.load(response.body)
+
+      ids = json['results'].map{|r| r['requestid'] }
+      archives = Archive.where(pin_id: ids)
+
       json['results'].each do |res|
-        a = Archive.find_by_pin_id(res['requestid'])
-        a.update_columns(pin_status: res['status'], updated_at: Time.now) if a.present? && a.pin_status != res['status']
+        archive = archives.find{|a| a.pin_id == res['requestid'].to_i }
+        next if archive.nil?
+        archive.update_columns(pin_status: res['status'], updated_at: Time.now) if archive.pin_status != res['status']
       end
     end
   end
