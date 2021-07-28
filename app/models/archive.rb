@@ -70,10 +70,6 @@ class Archive < ApplicationRecord
   end
 
   def self.check_pin_status
-    headers = {
-      "Content-Type" => "application/json",
-      "Authorization" => "Bearer #{ENV['ESTUARY_API_KEY']}"
-    }
     # TODO pagination
     first = Archive.where(pin_status: 'queued').order('pinned_at ASC').first
     after = first.try(:pinned_at)
@@ -85,7 +81,7 @@ class Archive < ApplicationRecord
       "Content-Type" => "application/json",
       "Authorization" => "Bearer #{ENV['ESTUARY_API_KEY']}"
     }
-    url = "https://api.estuary.tech/pinning/pins?limit=100&after=#{after.to_s(:iso8601)}"
+    url = "https://api.estuary.tech/pinning/pins?limit=1000&after=#{after.to_s(:iso8601)}"
     response = Faraday.get(url, {}, headers)
     if response.success?
       json = Oj.load(response.body)
