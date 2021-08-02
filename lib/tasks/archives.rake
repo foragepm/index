@@ -9,6 +9,10 @@ namespace :archives do
     ids.each{|id| EstuaryArchiveWorker.perform_async(id) }
   end
 
+  task add_to_web3_storage: :environment do
+    Archive.where(web3: false).limit(1000).pluck(:id).each{|id| Web3StorageWorker.perform_async(id) };nil
+  end
+
   task check_pin_statuses: :environment do
     Archive.check_pin_status
     ids = Archive.pinned.where(pin_status: ['pinning', 'queued']).limit(1000).order('pinned_at ASC').pluck(:id)
