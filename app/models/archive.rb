@@ -7,9 +7,14 @@ class Archive < ApplicationRecord
   scope :pinned, -> { where.not(pin_id: nil) }
 
   after_commit :pin_async, on: :create
+  after_commit :pin_to_web3_storage_async, on: :create
 
   def pin_async
     EstuaryArchiveWorker.perform_async(id)
+  end
+
+  def pin_to_web3_storage_async
+    Web3StorageWorker.perform_async(id)
   end
 
   def filename
