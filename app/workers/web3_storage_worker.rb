@@ -1,4 +1,4 @@
-class EstuaryArchiveWorker
+class Web3StorageWorker
   include Sidekiq::Worker
   sidekiq_options queue: :default, lock: :until_executed
 
