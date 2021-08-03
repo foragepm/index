@@ -82,7 +82,7 @@ class Archive < ApplicationRecord
     response = Faraday.head(url)
     if response.status == 404
       version.update_columns(yanked: true)
-      remove_pin
+      # remove_pin # disabled due to estuary timeouts
       self.destroy
     end
   end
