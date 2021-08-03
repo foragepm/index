@@ -29,6 +29,8 @@ class Archive < ApplicationRecord
     response = Faraday.get(url)
     if response.success?
       update_columns(web3: true)
+    else
+      check_availability
     end
   end
 
