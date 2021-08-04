@@ -10,7 +10,7 @@ namespace :archives do
   end
 
   task add_to_web3_storage: :environment do
-    Archive.not_yanked.where(web3: false).limit(1000).pluck(:id).each{|id| Web3StorageWorker.perform_async(id) };nil
+    Archive.not_yanked.where(web3: false).where('size < ?', 20.megabyte).limit(1000).pluck(:id).each{|id| Web3StorageWorker.perform_async(id) };nil
   end
 
   task check_pin_statuses: :environment do
