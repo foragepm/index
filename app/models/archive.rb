@@ -46,7 +46,12 @@ class Archive < ApplicationRecord
       "Authorization" => "Bearer #{ENV['ESTUARY_API_KEY']}"
     }
     url = 'https://api.estuary.tech/pinning/pins'
-    response = Faraday.post(url, data.to_json, headers)
+
+    conn = Faraday.new do |conn|
+      conn.options.timeout = 10
+    end
+
+    response = conn.post(url, data.to_json, headers)
     if response.success?
       json = Oj.load(response.body)
       update_columns(pin_id: json["requestid"], pinned_at: Time.zone.now, pin_status: json["status"], updated_at: Time.zone.now)
@@ -60,7 +65,12 @@ class Archive < ApplicationRecord
       "Authorization" => "Bearer #{ENV['ESTUARY_API_KEY']}"
     }
     url = "https://api.estuary.tech/pinning/pins/#{pin_id}"
-    response = Faraday.get(url, {}, headers)
+
+    conn = Faraday.new do |conn|
+      conn.options.timeout = 10
+    end
+
+    response = conn.get(url, {}, headers)
     if response.success?
       json = Oj.load(response.body)
       update_columns(pin_status: json["status"], updated_at: Time.zone.now)
@@ -74,12 +84,21 @@ class Archive < ApplicationRecord
       "Authorization" => "Bearer #{ENV['ESTUARY_API_KEY']}"
     }
     url = "https://api.estuary.tech/pinning/pins/#{pin_id}"
-    response = Faraday.delete(url, {}, headers)
+
+    conn = Faraday.new do |conn|
+      conn.options.timeout = 10
+    end
+
+    response = conn.delete(url, {}, headers)
     response.success?
   end
 
   def check_availability
-    response = Faraday.head(url)
+    conn = Faraday.new do |conn|
+      conn.options.timeout = 10
+    end
+
+    response = conn.head(url)
     if response.status == 404
       version.update_columns(yanked: true)
       # remove_pin # disabled due to estuary timeouts
