@@ -69,11 +69,15 @@ class Archive < ApplicationRecord
     conn = Faraday.new do |conn|
       conn.options.timeout = 10
     end
-
-    response = conn.get(url, {}, headers)
-    if response.success?
-      json = Oj.load(response.body)
-      update_columns(pin_status: json["status"], updated_at: Time.zone.now)
+    
+    begin
+      response = conn.get(url, {}, headers)
+      if response.success?
+        json = Oj.load(response.body)
+        update_columns(pin_status: json["status"], updated_at: Time.zone.now)
+      end
+    rescue Faraday::TimeoutError
+      # timeout
     end
   end
 
