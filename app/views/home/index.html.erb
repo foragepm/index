@@ -11,19 +11,19 @@
 </h1>
 
 <h1 class="display-4">
-  <span class='text-danger'><%= number_to_human Archive.count, precision: 3 %></span> tarballs archived
+  <span class='text-danger'><%= number_to_human Archive.not_yanked.count, precision: 3 %></span> tarballs archived
 </h1>
 
 <h1 class="display-4">
-  <span class='text-info'><%= number_to_human_size(Archive.sum(:size), precision: 4) %></span> from <span class='text-warning'><%= number_to_human(Archive.where.not(pin_id: nil).count, precision: 3) %></span> pins stored in <%= link_to 'IPFS', 'https://ipfs.io' %>
+  <span class='text-info'><%= number_to_human_size(Archive.not_yanked.sum(:size), precision: 4) %></span> from <span class='text-warning'><%= number_to_human(Archive.where.not(pin_id: nil).count, precision: 3) %></span> pins stored in <%= link_to 'IPFS', 'https://ipfs.io' %>
 </h1>
 
 <h1 class="display-4">
-  <span class='text-info'><%= number_to_human_size(Archive.where(web3: true).sum(:size), precision: 4) %></span> from <span class='text-warning'><%= number_to_human(Archive.where(web3: true).count, precision: 3) %></span> releases in <%= link_to 'web3.storage', 'https://web3.storage/' %>
+  <span class='text-info'><%= number_to_human_size(Archive.not_yanked.where(web3: true).sum(:size), precision: 4) %></span> from <span class='text-warning'><%= number_to_human(Archive.where(web3: true).count, precision: 3) %></span> releases in <%= link_to 'web3.storage', 'https://web3.storage/' %>
 </h1>
 
 <h1 class="display-4">
-  <span class='text-info'><%= number_to_human_size(Archive.where(pin_status: 'pinned').sum(:size), precision: 4) %></span> from <span class='text-warning'><%= number_to_human(Archive.where(pin_status: 'pinned').count, precision: 3) %></span> releases in <%= link_to 'Estuary', 'https://estuary.tech' %>
+  <span class='text-info'><%= number_to_human_size(Archive.not_yanked.where(pin_status: 'pinned').sum(:size), precision: 4) %></span> from <span class='text-warning'><%= number_to_human(Archive.where(pin_status: 'pinned').count, precision: 3) %></span> releases in <%= link_to 'Estuary', 'https://estuary.tech' %>
 </h1>
 
 <h1 class="display-4">
