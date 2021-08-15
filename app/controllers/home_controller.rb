@@ -8,6 +8,6 @@ class HomeController < ApplicationController
     @yanked = Version.where(yanked: true).count
     @not_pinned = Archive.not_yanked.not_pinned.count
     @not_pinned_web3 = Archive.not_yanked.where(web3: false).count
-    @statuses = Archive.pinned.group(:pin_status).count
+    @statuses = Archive.pinned.not_yanked.group(:pin_status).count
   end
 end
