@@ -51,10 +51,14 @@ class Archive < ApplicationRecord
       conn.options.timeout = 10
     end
 
-    response = conn.post(url, data.to_json, headers)
-    if response.success?
-      json = Oj.load(response.body)
-      update_columns(pin_id: json["requestid"], pinned_at: Time.zone.now, pin_status: json["status"], updated_at: Time.zone.now)
+    begin
+      response = conn.post(url, data.to_json, headers)
+      if response.success?
+        json = Oj.load(response.body)
+        update_columns(pin_id: json["requestid"], pinned_at: Time.zone.now, pin_status: json["status"], updated_at: Time.zone.now)
+      end
+    rescue Faraday::TimeoutError
+      # timeout
     end
   end
 
@@ -69,7 +73,7 @@ class Archive < ApplicationRecord
     conn = Faraday.new do |conn|
       conn.options.timeout = 10
     end
-    
+
     begin
       response = conn.get(url, {}, headers)
       if response.success?
@@ -93,8 +97,12 @@ class Archive < ApplicationRecord
       conn.options.timeout = 10
     end
 
-    response = conn.delete(url, {}, headers)
-    response.success?
+    begin
+      response = conn.delete(url, {}, headers)
+      response.success?
+    rescue Faraday::TimeoutError
+      # timeout
+    end
   end
 
   def check_availability
@@ -102,11 +110,15 @@ class Archive < ApplicationRecord
       conn.options.timeout = 10
     end
 
-    response = conn.head(url)
-    if response.status == 404
-      version.update_columns(yanked: true)
-      # remove_pin # disabled due to estuary timeouts
-      self.destroy
+    begin
+      response = conn.head(url)
+      if response.status == 404
+        version.update_columns(yanked: true)
+        # remove_pin # disabled due to estuary timeouts
+        self.destroy
+      end
+    rescue Faraday::TimeoutError
+      # timeout
     end
   end
 
