@@ -11,10 +11,6 @@
 </h1>
 
 <h1 class="display-4">
-  <span class='text-danger'><%= number_to_human Archive.not_yanked.count, precision: 3 %></span> tarballs archived
-</h1>
-
-<h1 class="display-4">
   <span class='text-info'><%= number_to_human_size(Archive.not_yanked.sum(:size), precision: 4) %></span> from <span class='text-warning'><%= number_to_human(Archive.where.not(pin_id: nil).count, precision: 3) %></span> pins stored in <%= link_to 'IPFS', 'https://ipfs.io' %>
 </h1>
 
@@ -27,5 +23,5 @@
 </h1>
 
 <h1 class="display-4">
-  <span class='text-secondary'><%= number_to_human_size(Deal.aggregate.sum(:size), precision: 4) %></span> stored across <span class='text-secondary'><%= number_to_human(Deal.aggregate.count, precision: 3) %></span> Filecoin <%= link_to 'deals', deals_path %>
+  <span class='text-danger'><%= number_to_human_size(Deal.aggregate.sum(:size), precision: 4) %></span> stored across <span class='text-secondary'><%= number_to_human(Deal.aggregate.count, precision: 3) %></span> Filecoin <%= link_to 'deals', deals_path %>
 </h1>
