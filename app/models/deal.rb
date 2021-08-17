@@ -18,12 +18,12 @@ class Deal < ApplicationRecord
     end
   end
 
-  def self.load_deals
+  def self.load_deals(offset = 0)
     headers = {
       "Content-Type" => "application/json",
       "Authorization" => "Bearer #{ENV['ESTUARY_API_KEY']}"
     }
-    url = 'https://api.estuary.tech/content/deals?limit=100'
+    url = "https://api.estuary.tech/content/deals?limit=100&offset=#{offset}"
     response = Faraday.get(url, {}, headers)
     if response.success?
       Oj.load(response.body)
