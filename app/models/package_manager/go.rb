@@ -41,7 +41,11 @@ module PackageManager
     end
 
     def self.package_names
-      get_raw("https://index.golang.org/index")
+      names = []
+      get_raw("https://index.golang.org/index").each_line do |line|
+        names << Oj.load(line)['Path']
+      end
+      names
     end
 
     def self.package(name)
