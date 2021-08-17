@@ -149,4 +149,13 @@ class Archive < ApplicationRecord
       end
     end
   end
+
+  def self.retry_failed_pins
+    Archive.where(pin_status: 'failed').not_yanked.find_each do |a|
+      unless a.check_availability
+        a.pin_id = nil
+        a.pin
+      end
+    end
+  end
 end

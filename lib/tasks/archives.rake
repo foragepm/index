@@ -18,4 +18,8 @@ namespace :archives do
     ids = Archive.pinned.where(pin_status: ['pinning', 'queued']).limit(1000).order('pinned_at ASC').pluck(:id)
     ids.each{|id| CheckPinStatusWorker.perform_async(id) }
   end
+
+  task retry_failed_pins: :environment do
+    Archive.retry_failed_pins
+  end
 end
