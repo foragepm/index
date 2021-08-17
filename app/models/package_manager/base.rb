@@ -82,7 +82,7 @@ module PackageManager
       find(platform).try(:formatted_name) || platform
     end
 
-    def self.save(package)
+    def self.save(package, version_limit = 20)
       return unless package.present?
 
       mapped_package = mapping(package)
@@ -100,7 +100,9 @@ module PackageManager
       end
 
       if self::HAS_VERSIONS
-        versions(package, dbpackage.name).sort_by{|v| v[:published_at]}.reverse.first(20).each do |version|
+        v = versions(package, dbpackage.name).sort_by{|v| v[:published_at]}.reverse
+        v = v.first(version_limit) if version_limit
+        v.each do |version|
           dbpackage.versions.create(version) unless dbpackage.versions.find { |v| v.number == version[:number] }
         end
       end
@@ -113,9 +115,9 @@ module PackageManager
       dbpackage
     end
 
-    def self.update(name)
+    def self.update(name, version_limit = 20)
       pkg = package(name)
-      save(pkg) if pkg.present?
+      save(pkg, version_limit) if pkg.present?
     rescue SystemExit, Interrupt
       exit 0
     rescue StandardError => e

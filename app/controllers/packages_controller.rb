@@ -19,7 +19,7 @@ class PackagesController < ApplicationController
 
     results.select{|k,v| v.nil?}.each do |k,_v|
       parts = k.split(':')
-      ImportPackageWorker.perform_async(parts[0], parts[1])
+      ImportPackageWorker.perform_async(parts[0], parts[1], nil)
     end
 
     render json: results
