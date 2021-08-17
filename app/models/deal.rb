@@ -9,6 +9,7 @@ class Deal < ApplicationRecord
     json = load_deals
     return unless json.present?
     json.each do |deal_json|
+      next unless deal_json["aggregatedFiles"] > 1
       deal = Deal.find_or_initialize_by(deal_id: deal_json["id"])
       deal.cid = deal_json["cid"]
       deal.size = deal_json["size"]
@@ -22,7 +23,7 @@ class Deal < ApplicationRecord
       "Content-Type" => "application/json",
       "Authorization" => "Bearer #{ENV['ESTUARY_API_KEY']}"
     }
-    url = 'https://api.estuary.tech/content/deals'
+    url = 'https://api.estuary.tech/content/deals?limit=100'
     response = Faraday.get(url, {}, headers)
     if response.success?
       Oj.load(response.body)
