@@ -11,10 +11,10 @@ class PackagesController < ApplicationController
 
   def lookup
     keys = params[:keys].split(',').first(1000)
-    cids = $redis.mget(keys)
+    archives = Archive.where(key: keys).select('key,cid')
     results = {}
-    keys.each_with_index do |key, i|
-      results[key] = cids[i]
+    archives.each do |a|
+      results[a.key] = a.cid
     end
 
     results.select{|k,v| v.nil?}.each do |k,_v|
