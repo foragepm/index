@@ -113,7 +113,7 @@ class Version < ApplicationRecord
       # end
 
       filename = download_url.split('/').last
-      url = "#{ENV['TRANSPORTER_URL']}/upload?filename=#{id}-#{filename}&url=#{download_url}"
+      url = "#{ENV['TRANSPORTER_URL']}/upload?filename=v#{id}-#{filename}&url=#{download_url}"
       res = Faraday.get(url)
 
       if res.success?
