@@ -16,6 +16,7 @@ class Archive < ApplicationRecord
   end
 
   def pin_to_web3_storage_async
+    return if web3
     Web3StorageWorker.perform_async(id)
   end
 
@@ -24,6 +25,7 @@ class Archive < ApplicationRecord
   end
 
   def pin_to_web3_storage
+    return if web3
     return if size > 30.megabyte
     url = "#{ENV['TRANSPORTER_URL']}/?cid=#{cid}&filename=#{id}-#{filename}"
     response = Faraday.get(url)
