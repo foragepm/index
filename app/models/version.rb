@@ -106,19 +106,12 @@ class Version < ApplicationRecord
   def record_archive
     return true if archives.any?
     begin
-      # client = Ipfs::Client.new(ENV['IPFS_API'] || 'http://localhost:5001')
-      # res = client.urlstore_add(download_url)
-      # if res["Key"].present?
-      #   Archive.create(version_id: id, package_id: package_id, url: download_url, cid: res["Key"], size: res["Size"], integrity: integrity, key: archive_key)
-      # end
-
-      filename = download_url.split('/').last
-      url = "#{ENV['TRANSPORTER_URL']}/upload?filename=v#{id}-#{filename}&url=#{download_url}"
+      url = "#{ENV['TRANSPORTER_URL']}/hash?url=#{download_url}"
       res = Faraday.get(url)
 
       if res.success?
         json = Oj.load(res.body)
-        Archive.create(version_id: id, package_id: package_id, url: download_url, cid: json["cid"], size: json["length"], integrity: integrity, key: archive_key, web3: true)
+        Archive.create(version_id: id, package_id: package_id, url: download_url, cid: json["cid"], size: json["length"], integrity: integrity, key: archive_key)
       end
 
     rescue Ipfs::Commands::Error => e

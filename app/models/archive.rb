@@ -9,7 +9,7 @@ class Archive < ApplicationRecord
   scope :not_yanked, -> { joins(:version).where('versions.yanked = ?', false) }
 
   after_commit :pin_async, on: :create
-  # after_commit :pin_to_web3_storage_async, on: :create
+  after_commit :pin_to_web3_storage_async, on: :create
 
   def pin_async
     EstuaryArchiveWorker.perform_async(id)
@@ -28,7 +28,6 @@ class Archive < ApplicationRecord
     return if web3
     return if size > 20.megabyte
     return if url.blank?
-    # url = "#{ENV['TRANSPORTER_URL']}/?cid=#{cid}&filename=#{id}-#{filename}"
     transport_url = "#{ENV['TRANSPORTER_URL']}/upload?filename=#{id}-#{filename}&url=#{self.url}"
     response = Faraday.get(transport_url)
     if response.success?
