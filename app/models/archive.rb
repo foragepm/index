@@ -9,7 +9,7 @@ class Archive < ApplicationRecord
   scope :not_yanked, -> { joins(:version).where('versions.yanked = ?', false) }
 
   after_commit :pin_async, on: :create
-  after_commit :pin_to_web3_storage_async, on: :create
+  # after_commit :pin_to_web3_storage_async, on: :create
 
   def pin_async
     EstuaryArchiveWorker.perform_async(id)
