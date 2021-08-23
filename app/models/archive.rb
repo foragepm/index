@@ -26,7 +26,7 @@ class Archive < ApplicationRecord
 
   def pin_to_web3_storage
     return if web3
-    return if size > 20.megabyte
+    return if size && size > 20.megabyte
     return if url.blank?
     transport_url = "#{ENV['TRANSPORTER_URL']}/upload?filename=#{id}-#{filename}&url=#{self.url}"
     response = Faraday.get(transport_url)

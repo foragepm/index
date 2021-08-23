@@ -4,7 +4,9 @@
       <%= archive.package.platform_name %> <%= link_to archive.package.name, package_path(archive.package) %>@<%= archive.version.number %>
     </h5>
     <small class='text-muted'>
+      <% if archive.size %>
       Size: <%= number_to_human_size archive.size %><br/>
+      <% end %>
       CID: <%= link_to archive.cid, "https://dweb.link/ipfs/#{archive.cid}?filename=#{archive.filename}", target: :_blank %>
       <% if archive.integrity.present? %>
       <br/>Integrity: <%= archive.integrity %>
