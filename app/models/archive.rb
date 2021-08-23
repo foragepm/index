@@ -31,7 +31,8 @@ class Archive < ApplicationRecord
     transport_url = "#{ENV['TRANSPORTER_URL']}/upload?filename=#{id}-#{filename}&url=#{self.url}"
     response = Faraday.get(transport_url)
     if response.success?
-      update_columns(web3: true)
+      json = Oj.load(response.body)
+      update_columns(web3: true, size: json['length'])
     else
       check_availability
     end
