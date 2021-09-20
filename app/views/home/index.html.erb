@@ -15,13 +15,5 @@
 </h1>
 
 <h1 class="display-4">
-  <span class='text-info'><%= number_to_human_size(Archive.not_yanked.where(web3: true).sum(:size), precision: 4) %></span> from <span class='text-warning'><%= number_to_human(Archive.where(web3: true).count, precision: 3) %></span> releases in <%= link_to 'web3.storage', 'https://web3.storage/' %>
-</h1>
-
-<h1 class="display-4">
-  <span class='text-info'><%= number_to_human_size(Archive.not_yanked.where(pin_status: 'pinned').sum(:size), precision: 4) %></span> from <span class='text-warning'><%= number_to_human(Archive.where(pin_status: 'pinned').count, precision: 3) %></span> releases in <%= link_to 'Estuary', 'https://estuary.tech' %>
-</h1>
-
-<h1 class="display-4">
   <span class='text-danger'><%= number_to_human_size(Deal.aggregate.sum(:size), precision: 4) %></span> stored across <span class='text-secondary'><%= number_to_human(Deal.aggregate.count, precision: 3) %></span> Filecoin <%= link_to 'deals', deals_path %>
 </h1>
