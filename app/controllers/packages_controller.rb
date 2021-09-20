@@ -10,7 +10,7 @@ class PackagesController < ApplicationController
   end
 
   def lookup
-    keys = params[:keys].split(',').first(1000)
+    keys = (params[:keys] || '').split(',').first(1000)
     archives = Archive.where(key: keys).select('key,cid')
     results = {}
     archives.each do |a|
