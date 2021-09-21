@@ -17,11 +17,16 @@ class PackagesController < ApplicationController
       results[a.key] = a.cid
     end
 
-    missing_keys = results.select{|k,v| v.nil?}.keys.uniq
-    puts "Enqueing backfill for #{missing_keys.length} keys"
-    missing_keys.each do |k|
+    missing_keys = keys - results.select{|k,v| v.present?}.keys
+
+    backfill = missing_keys.map do |k|
       parts = k.split(':')
-      ImportPackageWorker.perform_async(parts[0], parts[1], 100)
+      [parts[0], parts[1]]
+    end.uniq
+
+    puts "Enqueing backfill for #{backfill.length} pkgs"
+    backfill.each do |pkg|
+      ImportPackageWorker.perform_async(pkg[0], pkg[1], 100)
     end
 
     render json: results
