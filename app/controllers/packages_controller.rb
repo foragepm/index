@@ -17,7 +17,9 @@ class PackagesController < ApplicationController
       results[a.key] = a.cid
     end
 
-    results.select{|k,v| v.nil?}.each do |k,_v|
+    missing_keys = results.select{|k,v| v.nil?}.keys.uniq
+    puts "Enqueing backfill for #{missing_keys.length} keys"
+    missing_keys.each do |k|
       parts = k.split(':')
       ImportPackageWorker.perform_async(parts[0], parts[1], 100)
     end
