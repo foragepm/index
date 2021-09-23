@@ -3,15 +3,15 @@
 # number of saved archives
 # total size of saved archives -->
 <h1 class="display-3">
-  <span class='text-primary'><%= number_to_human Package.count, precision: 3 %></span> packages <%= link_to 'indexed', recent_packages_path %>
+  <span class='text-primary'><%= number_to_human Package.fast_total, precision: 3 %></span> packages <%= link_to 'indexed', recent_packages_path %>
 </h1>
 
 <h1 class="display-3">
-  <span class='text-success'><%= number_to_human Version.where(yanked:false).count, precision: 3 %></span> versions <%= link_to 'found', recent_versions_path %>
+  <span class='text-success'><%= number_to_human Version.fast_total, precision: 3 %></span> versions <%= link_to 'found', recent_versions_path %>
 </h1>
 
 <h1 class="display-4">
-  <span class='text-info'><%= number_to_human_size(Archive.not_yanked.sum(:size), precision: 4) %></span> from <span class='text-warning'><%= number_to_human(Archive.where.not(pin_id: nil).count, precision: 3) %></span> pins stored in <%= link_to 'IPFS', 'https://ipfs.io' %>
+  <span class='text-info'><%= number_to_human_size(Archive.sum(:size), precision: 4) %></span> from <span class='text-warning'><%= number_to_human(Archive.where.not(pin_id: nil).count, precision: 3) %></span> pins stored in <%= link_to 'IPFS', 'https://ipfs.io' %>
 </h1>
 
 <h1 class="display-4">
