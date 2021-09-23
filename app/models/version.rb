@@ -104,15 +104,17 @@ class Version < ApplicationRecord
   end
 
   def record_archive
-    return true if archives.any?
+    return if archives.any?
     begin
       url = "#{ENV['TRANSPORTER_URL']}/hash?url=#{download_url}"
       res = Faraday.get(url)
 
       if res.success?
         json = Oj.load(res.body)
-        Archive.create(version_id: id, package_id: package_id, url: download_url, cid: json["cid"], size: json["length"], integrity: integrity, key: archive_key)
+        a = Archive.create(version_id: id, package_id: package_id, url: download_url, cid: json["cid"], size: json["length"], integrity: integrity, key: archive_key)
       end
+
+      return a
 
     rescue Ipfs::Commands::Error => e
       json = Oj.load(e.message)
