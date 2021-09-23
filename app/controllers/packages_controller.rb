@@ -26,7 +26,7 @@ class PackagesController < ApplicationController
 
     puts "Enqueing backfill for #{backfill.length} pkgs"
     backfill.each do |pkg|
-      ImportPackageWorker.perform_async(pkg[0], pkg[1], 100)
+      ImportPackageWorker.perform_async(pkg[0], pkg[1], 50)
     end
 
     render json: results
