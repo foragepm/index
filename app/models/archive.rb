@@ -10,6 +10,22 @@ class Archive < ApplicationRecord
 
   # after_commit :pin_async, on: :create
 
+  def self.update_size_cache
+    $redis.set('archive_size_cache', Archive.sum(:size))
+  end
+
+  def self.size_cache
+    $redis.get('archive_size_cache').try(:to_i)
+  end
+
+  def self.update_pinned_cache
+    $redis.set('archive_pinned_cache', Archive.where.not(pin_id: nil).count)
+  end
+
+  def self.pinned_cache
+    $redis.get('archive_pinned_cache').try(:to_i)
+  end
+
   def pin_async
     EstuaryArchiveWorker.perform_async(id)
   end

@@ -22,4 +22,9 @@ namespace :archives do
   task retry_failed_pins: :environment do
     Archive.retry_failed_pins
   end
+
+  task update_counts: :environment do
+    Archive.update_size_cache
+    Archive.update_pinned_cache
+  end
 end
