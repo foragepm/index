@@ -8,7 +8,7 @@ class Archive < ApplicationRecord
 
   scope :not_yanked, -> { joins(:version).where('versions.yanked = ?', false) }
 
-  # after_commit :pin_async, on: :create
+  after_commit :pin_async, on: :create
 
   def self.update_size_cache
     $redis.set('archive_size_cache', Archive.sum(:size))
