@@ -173,7 +173,8 @@ class Archive < ApplicationRecord
     Archive.where(pin_status: 'failed').not_yanked.find_each do |a|
       unless a.check_availability
         a.pin_id = nil
-        a.pin
+        a.update_columns(pin_id: nil)
+        a.pin_async
       end
     end
   end
