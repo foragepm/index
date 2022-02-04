@@ -65,6 +65,7 @@ module PackageManager
           number: v["number"],
           published_at: v["created_at"],
           original_license: v.fetch("licenses"),
+          integrity: v["sha"]
         }
       end
     rescue StandardError
