@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_17_115336) do
+ActiveRecord::Schema.define(version: 2022_02_04_133913) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,6 +97,7 @@ ActiveRecord::Schema.define(version: 2021_08_17_115336) do
     t.string "integrity"
     t.boolean "yanked", default: false
     t.index ["package_id", "number"], name: "index_versions_on_package_id_and_number", unique: true
+    t.index ["yanked"], name: "index_versions_on_yanked"
   end
 
   add_foreign_key "archives", "packages"
