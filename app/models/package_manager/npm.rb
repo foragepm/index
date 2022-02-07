@@ -29,7 +29,7 @@ module PackageManager
     end
 
     def self.package_names
-      get("https://raw.githubusercontent.com/andrew/all-the-package-names/master/names.json")
+      get("https://raw.githubusercontent.com/nice-registry/all-the-package-names/master/names.json")
     end
 
     def self.recent_names
