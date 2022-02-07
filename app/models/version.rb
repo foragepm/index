@@ -20,6 +20,14 @@ class Version < ApplicationRecord
 
   scope :newest_first, -> { order("versions.published_at DESC") }
 
+  def self.update_total_cache
+    $redis.set('version_total_cache', Version.where(yanked: false).count)
+  end
+
+  def self.total_cache
+    $redis.get('version_total_cache').try(:to_i)
+  end
+
   def save_package
     package.try(:forced_save)
   end

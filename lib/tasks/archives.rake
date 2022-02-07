@@ -10,13 +10,13 @@ namespace :archives do
   end
 
   task add_to_web3_storage: :environment do
-    Archive.not_yanked.where(web3: false).where('size < ?', 20.megabyte).limit(1000).pluck(:id).each{|id| Web3StorageWorker.perform_async(id) };nil
+    Archive.not_yanked.where(web3: false).where('size < ? OR size = ?', 20.megabyte, nil).limit(1000).pluck(:id).each{|id| Web3StorageWorker.perform_async(id) };nil
   end
 
   task check_pin_statuses: :environment do
     Archive.check_pin_status
-    ids = Archive.pinned.where(pin_status: ['pinning', 'queued']).limit(1000).order('pinned_at ASC').pluck(:id)
-    ids.each{|id| CheckPinStatusWorker.perform_async(id) }
+    ids = Archive.pinned.where(pin_status: ['pinning']).order('pinned_at ASC').pluck(:id)
+    ids.each{|id| CheckPinStatusWorker.perform_async(id) };nil
   end
 
   task retry_failed_pins: :environment do
@@ -26,5 +26,7 @@ namespace :archives do
   task update_counts: :environment do
     Archive.update_size_cache
     Archive.update_pinned_cache
+    Version.update_total_cache
+    Package.update_total_cache
   end
 end

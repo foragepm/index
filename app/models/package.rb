@@ -73,6 +73,14 @@ class Package < ApplicationRecord
   before_save  :update_details
   before_destroy :destroy_versions
 
+  def self.update_total_cache
+    $redis.set('package_total_cache', Package.count)
+  end
+
+  def self.total_cache
+    $redis.get('package_total_cache').try(:to_i)
+  end
+  
   def to_s
     name
   end
