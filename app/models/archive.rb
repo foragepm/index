@@ -169,6 +169,27 @@ class Archive < ApplicationRecord
     end
   end
 
+  def self.batch_update_pin_status_by_id(pin_ids)
+    headers = {
+      "Content-Type" => "application/json",
+      "Authorization" => "Bearer #{ENV['ESTUARY_API_KEY']}"
+    }
+    url = "https://api.estuary.tech/pinning/pins?requestid=#{pin_ids.join(',')}"
+    response = Faraday.get(url, {}, headers)
+    if response.success?
+      json = Oj.load(response.body)
+
+      ids = json['results'].map{|r| r['requestid'] }
+      archives = Archive.where(pin_id: ids)
+
+      json['results'].each do |res|
+        archive = archives.find{|a| a.pin_id == res['requestid'].to_i }
+        next if archive.nil?
+        archive.update_columns(pin_status: res['status'], updated_at: Time.now) if archive.pin_status != res['status']
+      end
+    end
+  end
+
   def self.retry_failed_pins
     Archive.where(pin_status: 'failed').not_yanked.find_each do |a|
       unless a.check_availability
