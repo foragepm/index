@@ -49,6 +49,12 @@ class Archive < ApplicationRecord
       json = Oj.load(response.body)
       update_columns(web3: true, size: json['length'])
     else
+      begin
+        json = Oj.load(response.body)
+        update_columns(size: json['length'])
+      rescue => e
+        # some other error
+      end
       check_availability
     end
   end
