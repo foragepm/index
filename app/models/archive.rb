@@ -19,7 +19,7 @@ class Archive < ApplicationRecord
   end
 
   def self.update_pinned_cache
-    $redis.set('archive_pinned_cache', Archive.where.not(pin_id: nil).count)
+    $redis.set('archive_pinned_cache', Archive.where(web3: true).count)
   end
 
   def self.pinned_cache
