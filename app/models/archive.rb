@@ -11,7 +11,7 @@ class Archive < ApplicationRecord
   after_commit :pin_async, on: :create
 
   def self.update_size_cache
-    $redis.set('archive_size_cache', Archive.sum(:size))
+    $redis.set('archive_size_cache', Archive.where(web3: true).sum(:size))
   end
 
   def self.size_cache
