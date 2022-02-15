@@ -205,4 +205,35 @@ class Archive < ApplicationRecord
       end
     end
   end
+
+  def digest_algorithm
+    return unless integrity.present?
+    return unless integrity.split('-').length == 2 # TODO support go modules
+
+    return integrity.split('-').first
+  end
+
+  def digest
+    return unless integrity.present?
+    return unless digest_algorithm.present?
+    digest_url = "http://hash.ecosyste.ms/hash?algorithm=#{digest_algorithm}&url=#{url}"
+    response = Faraday.get(digest_url)
+    if response.success?
+      return json = Oj.load(response.body)
+    else 
+      puts response.status
+      return nil
+    end
+  end
+
+  def compare_digests
+    return unless digest_match.nil?
+    return unless integrity.present?
+    return unless digest_algorithm.present?
+    # TODO support go modules
+    hash_json = digest
+    return unless hash_json
+    hash = [hash_json['algorithm'], hash_json['hash']].join('-')
+    update_column :digest_match, hash == integrity
+  end
 end
