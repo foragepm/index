@@ -45,7 +45,7 @@ gem 'simple_form'
 gem 'rack-cors'
 gem 'dalli'
 
-gem 'sidekiq', '<7'
+gem 'sidekiq', '<8'
 gem 'sidekiq-unique-jobs'
 
 gem 'ipfs-http-client', github: 'andrew/ipfs-http-client'
